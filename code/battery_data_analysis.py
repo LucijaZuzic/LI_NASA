@@ -289,8 +289,8 @@ if 'charge_energy' in features_df.columns and 'discharge_energy' in features_df.
     print(f"\nCycles with both charge and discharge data: {both_count} out of {features_df.shape[0]}")
 
 # Check feature correlation with SOH
-plt.figure(figsize=(12, 10))
-numeric_features = features_df.select_dtypes(include=['float64', 'int64']).drop(['soh', 'capacity'], axis=1)
+plt.figure(figsize=(6, 10))
+numeric_features = features_df.select_dtypes(include=['float64', 'int64']).drop(['soh','capacity','cycle'], axis=1)
 correlation = numeric_features.corrwith(features_df['soh']).sort_values(ascending=False)
 
 sns.barplot(x=correlation.values, y=correlation.index)

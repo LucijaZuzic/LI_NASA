@@ -22,6 +22,7 @@ from tensorflow.keras.layers import Dense, Dropout, Input
 from tensorflow.keras.layers import LSTM, Bidirectional, Conv1D, Layer
 from tensorflow.keras.regularizers import l2
 import tensorflow.keras.backend as K
+from tensorflow.keras.utils import custom_object_scope
 
 # Create a traditional LSTM network
 def create_LSTM(hidden_units, dense_units, input_shape, activation):
@@ -227,6 +228,7 @@ y_battery = data['metadata']['battery_id']
 
 print(f"Data shape: {X.shape}")
 
+plot_history = False
 model_is_min = dict()
 model_is_max = dict()
 performance_dict = dict()
@@ -236,6 +238,66 @@ for ii in range(n_splits):
     for jj in range(n_splits):
         # Load models
         models_dir = '../models/nested_n_splits_' + str(n_splits) + '/seed_' + str(random_state) + '/test_fold_' + str(ii + 1) + '/validation_fold_' + str(jj + 1)
+
+        if plot_history:
+            for start_size in start_sizes:
+                # Load models in subdirectories
+                cells_subdir = os.path.join(models_dir, 'num_cells_' + str(start_size))
+                # Load history
+                with open(os.path.join(cells_subdir, 'lstm_num_cells_' + str(start_size) + '_history_n_splits_' + str(n_splits) + '_seed_' + str(random_state) + '_test_fold_' + str(ii + 1) + '_validation_fold_' + str(jj + 1) + '.pkl'), 'rb') as f:
+                    history = pickle.load(f)
+            
+                # Plot training history
+                plt.figure(figsize=(5, 5))
+                plt.plot(history.history['loss'], label='Training Loss')
+                plt.plot(history.history['val_loss'], label='Validation Loss')
+                plt.title('LSTM Model Training Cells: ' + str(start_size) + ' Number of splits: ' + str(n_splits) + ' Seed: ' + str(random_state) + '\nTest fold: ' + str(ii + 1) + ' Validation fold: ' + str(jj + 1))
+                plt.xlabel('Epoch')
+                plt.ylabel('Loss (MSE)')
+                plt.legend()
+                plt.grid(True)
+                plt.savefig(os.path.join(cells_subdir, 'lstm_num_cells_' + str(start_size) + '_training_narrow_history_n_splits_' + str(n_splits) + '_seed_' + str(random_state) + '_test_fold_' + str(ii + 1) + '_validation_fold_' + str(jj + 1) + '.png'), dpi=300, bbox_inches='tight')
+                plt.close()
+                
+            for start_size in start_sizes:
+                # Load models in subdirectories
+                cells_subdir = os.path.join(models_dir, 'num_cells_' + str(start_size))
+                custom_objects = {'attention': attention}
+                # Load history
+                with open(os.path.join(cells_subdir, 'lstm_att_num_cells_' + str(start_size) + '_history_n_splits_' + str(n_splits) + '_seed_' + str(random_state) + '_test_fold_' + str(ii + 1) + '_validation_fold_' + str(jj + 1) + '.pkl'), 'rb') as f:
+                    with custom_object_scope(custom_objects):
+                        history = pickle.load(f)
+            
+                # Plot training history
+                plt.figure(figsize=(5, 5))
+                plt.plot(history.history['loss'], label='Training Loss')
+                plt.plot(history.history['val_loss'], label='Validation Loss')
+                plt.title('LSTM Att Model Training Cells: ' + str(start_size) + ' Number of splits: ' + str(n_splits) + ' Seed: ' + str(random_state) + '\nTest fold: ' + str(ii + 1) + ' Validation fold: ' + str(jj + 1))
+                plt.xlabel('Epoch')
+                plt.ylabel('Loss (MSE)')
+                plt.legend()
+                plt.grid(True)
+                plt.savefig(os.path.join(cells_subdir, 'lstm_att_num_cells_' + str(start_size) + '_training_narrow_history_n_splits_' + str(n_splits) + '_seed_' + str(random_state) + '_test_fold_' + str(ii + 1) + '_validation_fold_' + str(jj + 1) + '.png'), dpi=300, bbox_inches='tight')
+                plt.close()
+
+            for start_size in start_sizes:
+                # Load models in subdirectories
+                cells_subdir = os.path.join(models_dir, 'num_cells_' + str(start_size))
+                # Load history
+                with open(os.path.join(cells_subdir, 'lstm_selu_num_cells_' + str(start_size) + '_history_n_splits_' + str(n_splits) + '_seed_' + str(random_state) + '_test_fold_' + str(ii + 1) + '_validation_fold_' + str(jj + 1) + '.pkl'), 'rb') as f:
+                    history = pickle.load(f)
+            
+                # Plot training history
+                plt.figure(figsize=(5, 5))
+                plt.plot(history.history['loss'], label='Training Loss')
+                plt.plot(history.history['val_loss'], label='Validation Loss')
+                plt.title('LSTM SELU Model Training Cells: ' + str(start_size) + ' Number of splits: ' + str(n_splits) + ' Seed: ' + str(random_state) + '\nTest fold: ' + str(ii + 1) + ' Validation fold: ' + str(jj + 1))
+                plt.xlabel('Epoch')
+                plt.ylabel('Loss (MSE)')
+                plt.legend()
+                plt.grid(True)
+                plt.savefig(os.path.join(cells_subdir, 'lstm_selu_num_cells_' + str(start_size) + '_training_narrow_history_n_splits_' + str(n_splits) + '_seed_' + str(random_state) + '_test_fold_' + str(ii + 1) + '_validation_fold_' + str(jj + 1) + '.png'), dpi=300, bbox_inches='tight')
+                plt.close()
 
         model_performance = dict()
         model_size_time = dict()
@@ -584,6 +646,63 @@ parameters_dict_short = dict()
 for ii in range(n_splits):
     # Load models
     models_dir = '../models/single_n_splits_' + str(n_splits) + '/seed_' + str(random_state) + '/test_fold_' + str(ii + 1)
+    
+    if plot_history:
+        for start_size in start_sizes:
+            # Load models in subdirectories
+            cells_subdir = os.path.join(models_dir, 'num_cells_' + str(start_size))
+            # Load history
+            with open(os.path.join(cells_subdir, 'lstm_num_cells_' + str(start_size) + '_history_n_splits_' + str(n_splits) + '_seed_' + str(random_state) + '_test_fold_' + str(ii + 1) + '.pkl'), 'rb') as f:
+                history = pickle.load(f)
+        
+            # Plot training history
+            plt.figure(figsize=(5, 5))
+            plt.plot(history.history['loss'], label='Training Loss')
+            plt.title('LSTM Model Training Cells: ' + str(start_size) + '\nNumber of splits: ' + str(n_splits) + ' Seed: ' + str(random_state) + ' Test fold: ' + str(ii + 1))
+            plt.xlabel('Epoch')
+            plt.ylabel('Loss (MSE)')
+            plt.legend()
+            plt.grid(True)
+            plt.savefig(os.path.join(cells_subdir, 'lstm_num_cells_' + str(start_size) + '_training_narrow_history_n_splits_' + str(n_splits) + '_seed_' + str(random_state) + '_test_fold_' + str(ii + 1) + '.png'), dpi=300, bbox_inches='tight')
+            plt.close()
+
+        for start_size in start_sizes:
+            # Load models in subdirectories
+            cells_subdir = os.path.join(models_dir, 'num_cells_' + str(start_size))
+            custom_objects = {'attention': attention}
+            # Load history
+            with open(os.path.join(cells_subdir, 'lstm_att_num_cells_' + str(start_size) + '_history_n_splits_' + str(n_splits) + '_seed_' + str(random_state) + '_test_fold_' + str(ii + 1) + '.pkl'), 'rb') as f:
+                with custom_object_scope(custom_objects):
+                    history = pickle.load(f)
+        
+            # Plot training history
+            plt.figure(figsize=(5, 5))
+            plt.plot(history.history['loss'], label='Training Loss')
+            plt.title('LSTM Att Model Training Cells: ' + str(start_size) + '\nNumber of splits: ' + str(n_splits) + ' Seed: ' + str(random_state) + ' Test fold: ' + str(ii + 1))
+            plt.xlabel('Epoch')
+            plt.ylabel('Loss (MSE)')
+            plt.legend()
+            plt.grid(True)
+            plt.savefig(os.path.join(cells_subdir, 'lstm_att_num_cells_' + str(start_size) + '_training_narrow_history_n_splits_' + str(n_splits) + '_seed_' + str(random_state) + '_test_fold_' + str(ii + 1) + '.png'), dpi=300, bbox_inches='tight')
+            plt.close()
+
+        for start_size in start_sizes:
+            # Load models in subdirectories
+            cells_subdir = os.path.join(models_dir, 'num_cells_' + str(start_size))
+            # Load history
+            with open(os.path.join(cells_subdir, 'lstm_selu_num_cells_' + str(start_size) + '_history_n_splits_' + str(n_splits) + '_seed_' + str(random_state) + '_test_fold_' + str(ii + 1) + '.pkl'), 'rb') as f:
+                history = pickle.load(f)
+        
+            # Plot training history
+            plt.figure(figsize=(5, 5))
+            plt.plot(history.history['loss'], label='Training Loss')
+            plt.title('LSTM SELU Model Training Cells: ' + str(start_size) + '\nNumber of splits: ' + str(n_splits) + ' Seed: ' + str(random_state) + ' Test fold: ' + str(ii + 1))
+            plt.xlabel('Epoch')
+            plt.ylabel('Loss (MSE)')
+            plt.legend()
+            plt.grid(True)
+            plt.savefig(os.path.join(cells_subdir, 'lstm_selu_num_cells_' + str(start_size) + '_training_narrow_history_n_splits_' + str(n_splits) + '_seed_' + str(random_state) + '_test_fold_' + str(ii + 1) + '.png'), dpi=300, bbox_inches='tight')
+            plt.close()
 
     model_performance = dict()
     model_size_time = dict()
