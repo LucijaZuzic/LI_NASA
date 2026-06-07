@@ -228,7 +228,7 @@ y_battery = data['metadata']['battery_id']
 
 print(f"Data shape: {X.shape}")
 
-plot_history = False
+plot_history = True
 model_is_min = dict()
 model_is_max = dict()
 performance_dict = dict()
@@ -248,7 +248,7 @@ for ii in range(n_splits):
                     history = pickle.load(f)
             
                 # Plot training history
-                plt.figure(figsize=(5, 5))
+                plt.figure(figsize=(5, 2.5))
                 plt.plot(history.history['loss'], label='Training Loss')
                 plt.plot(history.history['val_loss'], label='Validation Loss')
                 plt.title('LSTM Model Training Cells: ' + str(start_size) + ' Number of splits: ' + str(n_splits) + ' Seed: ' + str(random_state) + '\nTest fold: ' + str(ii + 1) + ' Validation fold: ' + str(jj + 1))
@@ -269,7 +269,7 @@ for ii in range(n_splits):
                         history = pickle.load(f)
             
                 # Plot training history
-                plt.figure(figsize=(5, 5))
+                plt.figure(figsize=(5, 2.5))
                 plt.plot(history.history['loss'], label='Training Loss')
                 plt.plot(history.history['val_loss'], label='Validation Loss')
                 plt.title('LSTM Att Model Training Cells: ' + str(start_size) + ' Number of splits: ' + str(n_splits) + ' Seed: ' + str(random_state) + '\nTest fold: ' + str(ii + 1) + ' Validation fold: ' + str(jj + 1))
@@ -288,7 +288,7 @@ for ii in range(n_splits):
                     history = pickle.load(f)
             
                 # Plot training history
-                plt.figure(figsize=(5, 5))
+                plt.figure(figsize=(5, 2.5))
                 plt.plot(history.history['loss'], label='Training Loss')
                 plt.plot(history.history['val_loss'], label='Validation Loss')
                 plt.title('LSTM SELU Model Training Cells: ' + str(start_size) + ' Number of splits: ' + str(n_splits) + ' Seed: ' + str(random_state) + '\nTest fold: ' + str(ii + 1) + ' Validation fold: ' + str(jj + 1))
@@ -656,7 +656,7 @@ for ii in range(n_splits):
                 history = pickle.load(f)
         
             # Plot training history
-            plt.figure(figsize=(5, 5))
+            plt.figure(figsize=(5, 2.5))
             plt.plot(history.history['loss'], label='Training Loss')
             plt.title('LSTM Model Training Cells: ' + str(start_size) + '\nNumber of splits: ' + str(n_splits) + ' Seed: ' + str(random_state) + ' Test fold: ' + str(ii + 1))
             plt.xlabel('Epoch')
@@ -676,7 +676,7 @@ for ii in range(n_splits):
                     history = pickle.load(f)
         
             # Plot training history
-            plt.figure(figsize=(5, 5))
+            plt.figure(figsize=(5, 2.5))
             plt.plot(history.history['loss'], label='Training Loss')
             plt.title('LSTM Att Model Training Cells: ' + str(start_size) + '\nNumber of splits: ' + str(n_splits) + ' Seed: ' + str(random_state) + ' Test fold: ' + str(ii + 1))
             plt.xlabel('Epoch')
@@ -694,7 +694,7 @@ for ii in range(n_splits):
                 history = pickle.load(f)
         
             # Plot training history
-            plt.figure(figsize=(5, 5))
+            plt.figure(figsize=(5, 2.5))
             plt.plot(history.history['loss'], label='Training Loss')
             plt.title('LSTM SELU Model Training Cells: ' + str(start_size) + '\nNumber of splits: ' + str(n_splits) + ' Seed: ' + str(random_state) + ' Test fold: ' + str(ii + 1))
             plt.xlabel('Epoch')

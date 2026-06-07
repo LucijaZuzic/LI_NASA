@@ -9,7 +9,8 @@ The dataset consists of lithium-ion battery cycling data collected by NASA Ames 
 ## Download Instructions
 
 1. Download the NASA Prognostics Center Battery Dataset from the following URL:
-   https://ti.arc.nasa.gov/tech/dash/groups/pcoe/prognostic-data-repository/#battery
+   https://www.nasa.gov/intelligent-systems-division/discovery-and-systems-health/pcoe/pcoe-data-set-repository
+   https://phm-datasets.s3.amazonaws.com/NASA/5.+Battery+Data+Set.zip
 
 2. Specifically, download "Battery Data Set" which contains data from Li-ion batteries cycling from full charge to full discharge.
 
