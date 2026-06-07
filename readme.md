@@ -70,19 +70,19 @@ The project workflow is organized in four Python scripts:
    - Extracts relevant features
    - Prepares data for model training
 
-2. **battery_prediction_kfold_nested.ipynb**:
+2. **battery_prediction_kfold_nested.py**:
    - Implements the models for SOH prediction
    - Nested 5-fold cross-validation
    - Visualizes validation results
    - Tune hyperparameters (number of cells)
 
-3. **battery_prediction_kfold_single.ipynb**:
+3. **battery_prediction_kfold_single.py**:
    - Implements the models for SOH prediction
    - 5-fold cross-validation
    - Visualizes testing results
    - Determine the best model on each testing fold
 
-2. **battery_best_kfold_single.ipynb**:
+2. **battery_best_kfold_single.py**:
    - Prints the concise results of SOH prediction
    - Prints the tuned hyperparameters
    - Visualizes filtered testing results
