@@ -10,7 +10,7 @@ The project analyzes battery cycling data to predict degradation patterns and pe
 
 The project uses NASA's battery dataset, which contains cycling data for lithium-ion batteries running to failure under different operational conditions. The dataset includes measurements such as voltage, current, temperature, and capacity for each charge-discharge cycle.
 
-To obtain the dataset, follow the instructions in the [data/README.md](data/README.md) file.
+To obtain the dataset, follow the instructions in the [data/readme.md](data/readme.md) file.
 
 ## Project Structure
 
@@ -58,7 +58,7 @@ battery-prediction/
    pip install -r requirements.txt
    ```
 
-4. Download the dataset following instructions in `data/README.md`
+4. Download the dataset following instructions in `data/readme.md`
 
 ## Usage
 
